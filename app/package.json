@@ -1,0 +1,23 @@
+{
+  "name": "soundboard-app",
+  "version": "1.0.0",
+  "description": "soundboard-app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/Wyrtz/soundboard.git",
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "dependencies": {
+    "python-shell": "^1.0.8",
+    "electron": "^8.2.1"
+  }
+}
