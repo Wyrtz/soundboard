@@ -55,14 +55,15 @@ def get_sound_devices():
     :return: a list with the default output device as first argument and virtual cable as second
     """
     virt_in = "CABLE Input MME"
-    virt_in_dic = sounddevice.query_devices(device=virt_in)
+    try:
+        virt_in_dic = sounddevice.query_devices(device=virt_in)
+    except ValueError:
+        virt_in_dic = None
     virt_out_idx = None
-    for idx, device_dict in enumerate(sounddevice.query_devices()):
-        if device_dict == virt_in_dic:
-            virt_out_idx = idx
-    if virt_out_idx is None:
-        # ToDo: handle if Virtual cable is not installed
-        raise ModuleNotFoundError
+    if virt_in_dic:
+        for idx, device_dict in enumerate(sounddevice.query_devices()):
+            if device_dict == virt_in_dic:
+                virt_out_idx = idx
     phys_out = sounddevice.default.device[1]
     return [phys_out, virt_out_idx]
 
@@ -76,10 +77,10 @@ def play_file(file_location):
     """
     file = load_sound_file_into_memory(file_location)
 
-    try:
-        indices = get_sound_devices()
+    indices = get_sound_devices()
+    if indices[1]:
         streams = [create_running_output_stream(index) for index in indices]
-    except ModuleNotFoundError:
+    else:
         streams = [create_running_output_stream(indices[0])]
 
     running = True
