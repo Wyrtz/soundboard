@@ -22,6 +22,7 @@ def load_sound_file_into_memory(path):
     audio_data, _ = soundfile.read(path, dtype=DATA_TYPE)
     return audio_data
 
+
 def play_wav_on_index(audio_data, stream_object):
     """
     Play an audio file given as the result of `load_sound_file_into_memory`
@@ -75,8 +76,12 @@ def play_file(file_location):
     """
     file = load_sound_file_into_memory(file_location)
 
-    indices = get_sound_devices()
-    streams = [create_running_output_stream(index) for index in indices]
+    try:
+        indices = get_sound_devices()
+        streams = [create_running_output_stream(index) for index in indices]
+    except ModuleNotFoundError:
+        streams = [create_running_output_stream(indices[0])]
+
     running = True
 
     print("Playing \'" + file_location.split("\\")[-1] + "\'")
@@ -104,6 +109,7 @@ def play_file(file_location):
         for t in threads:
             t.join()
 
+
 def build_parser():
     desc = "Input a .wave file, and it will be played back on Virtual Cable (pre-requisit) and default output device "
     parser = argparse.ArgumentParser(description=desc)
@@ -112,5 +118,7 @@ def build_parser():
     )
     return parser.parse_args()
 
+
 file = build_parser().file
 play_file(file)
+
