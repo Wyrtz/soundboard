@@ -1,18 +1,24 @@
 'use strict';
 
 document.querySelector('.button').addEventListener('click', () => {
-  document.querySelector("#title").textContent = "test";
-  console.log("help");
+  play_sound();
 })
 
 function play_sound() {
-  const python = require("python-shell")
+  const {PythonShell} = require("python-shell");
   const path =  require("path")
 
-  const options = {
-    scriptPath : path.join(__dirname, '../../')
-    args : '-f "ae.wav"'
-  }
+  let options = {
+    mode: 'text',
+    pythonOptions: ['-u'], // get print results in real-time
+    scriptPath : path.join(__dirname, '../'),
+    args: ['../ae.wav']
+  };
 
-  const sound = new python('play_file.py', options)
+  const sound = new PythonShell('play_file.py', options)
+
+  sound.on("message", function(message) {
+    console.log(message) //Print Python print statements
+  })
 }
+

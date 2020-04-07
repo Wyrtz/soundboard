@@ -75,6 +75,7 @@ def play_file(file_location):
     :param file_location: the full path of the file to play
     :return: None,  returns when file has been played or interrupted
     """
+    print(file_location)
     file = load_sound_file_into_memory(file_location)
 
     indices = get_sound_devices()
@@ -115,10 +116,9 @@ def build_parser():
     desc = "Input a .wave file, and it will be played back on Virtual Cable (pre-requisit) and default output device "
     parser = argparse.ArgumentParser(description=desc)
     parser.add_argument(
-        "-f", "--file", type=str, required=True, help=".wave file to play on default and Virtual Cable output"
+        "file", type=str, help=".wave file to play on default and Virtual Cable output"
     )
     return parser.parse_args()
-
 
 file = build_parser().file
 play_file(file)
