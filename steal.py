@@ -1,14 +1,13 @@
 """
-multi.py, uses the sounddevice library to play multiple audio file to multiple output devices at the same time
-Written by Devon Bray (dev@esologic.com)
+Credit for bootstrap code:
+ Devon Bray (dev@esologic.com)
 """
+import argparse
 import time
 
 import sounddevice
 import soundfile
 import threading
-import os
-
 
 DATA_TYPE = "float32"
 
@@ -63,12 +62,11 @@ def get_sound_devices():
     return [phys_out, virt_out_idx]
 
 
-def play_file(file_location="D:\Dropbox\Soundboard\Alt andet\Destroy the child.wav"):
+def play_file(file_location):
 
     file = load_sound_file_into_memory(file_location)
 
     indices = get_sound_devices()
-    print(indices)
     streams = [create_running_output_stream(index) for index in indices]
     running = True
 
@@ -97,5 +95,14 @@ def play_file(file_location="D:\Dropbox\Soundboard\Alt andet\Destroy the child.w
         for t in threads:
             t.join()
 
-play_file()
-#get_sound_devices()
+def build_parser():
+    desc = "Input a .wave file, and it will be played back on Virtual Cable (pre-requisit) and default output device "
+    parser = argparse.ArgumentParser(description=desc)
+    parser.add_argument(
+        "-f", "--file", type=str, required=True, help=".wave file to play on default and Virtual Cable output"
+    )
+    return parser.parse_args()
+
+file = build_parser().file
+#file = "D:\Dropbox\Soundboard\Alt andet\Destroy the child.wav"
+play_file(file)
