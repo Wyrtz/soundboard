@@ -49,6 +49,10 @@ def create_running_output_stream(index):
 
 
 def get_sound_devices():
+    """
+    A method for getting the sounddevices to play back on
+    :return: a list with the default output device as first argument and virtual cable as second
+    """
     virt_in = "CABLE Input MME"
     virt_in_dic = sounddevice.query_devices(device=virt_in)
     virt_out_idx = None
@@ -63,7 +67,12 @@ def get_sound_devices():
 
 
 def play_file(file_location):
-
+    """
+    Method for playing a given file on default output device and virtual cable.
+    Can be stopped with keyboard interrupt
+    :param file_location: the full path of the file to play
+    :return: None,  returns when file has been played or interrupted
+    """
     file = load_sound_file_into_memory(file_location)
 
     indices = get_sound_devices()
@@ -104,5 +113,4 @@ def build_parser():
     return parser.parse_args()
 
 file = build_parser().file
-#file = "D:\Dropbox\Soundboard\Alt andet\Destroy the child.wav"
 play_file(file)
