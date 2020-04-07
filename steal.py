@@ -48,19 +48,27 @@ def create_running_output_stream(index):
     output.start()
     return output
 
+
 def get_sound_devices():
-    print(sounddevice.default.device)
-    #print(sounddevice.query_devices())
-    outd = sounddevice.query_devices(device="CABLE Input MME")
-    ind = sounddevice.query_devices()
+    virt_in = "CABLE Input MME"
+    virt_in_dic = sounddevice.query_devices(device=virt_in)
+    virt_out_idx = None
+    for idx, device_dict in enumerate(sounddevice.query_devices()):
+        if device_dict == virt_in_dic:
+            virt_out_idx = idx
+    if virt_out_idx is None:
+        # ToDo: handle if Virtual cable is not installed
+        raise ModuleNotFoundError
+    phys_out = sounddevice.default.device[1]
+    return [phys_out, virt_out_idx]
 
 
 def play_file(file_location="D:\Dropbox\Soundboard\Alt andet\Destroy the child.wav"):
 
     file = load_sound_file_into_memory(file_location)
 
-    indices = [4, 7]
-
+    indices = get_sound_devices()
+    print(indices)
     streams = [create_running_output_stream(index) for index in indices]
     running = True
 
