@@ -17,8 +17,8 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "dependencies": {
-    "directory-tree": "^2.2.4",
     "electron": "^8.2.1",
-    "python-shell": "^1.0.8"
+    "python-shell": "^1.0.8",
+    "directory-tree": "^2.2.4"
   }
 }
