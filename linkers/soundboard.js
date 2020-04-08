@@ -16,7 +16,7 @@ let tree
 
 function update_file_list() {
   const dirTree = require("directory-tree")
-  const dir = "D:/Dropbox/Soundboard"
+  console.log(__dirname)
   console.log(".wav files in " + dir)
   tree = dirTree(dir, { extensions: /\.wav/ })
   console.log(tree)
