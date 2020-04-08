@@ -18,7 +18,6 @@ def load_sound_file_into_memory(path):
     :param path: wav file to be loaded
     :return: audio_data, a 2D numpy array
     """
-
     audio_data, _ = soundfile.read(path, dtype=DATA_TYPE)
     return audio_data
 
@@ -75,7 +74,6 @@ def play_file(file_location):
     :param file_location: the full path of the file to play
     :return: None,  returns when file has been played or interrupted
     """
-    print(file_location)
     file = load_sound_file_into_memory(file_location)
 
     indices = get_sound_devices()
@@ -86,7 +84,7 @@ def play_file(file_location):
 
     running = True
 
-    print("Playing \'" + file_location.split("\\")[-1] + "\'")
+    print("Playing \'" + file_location.split("/")[-1] + "\'")
 
     threads = [threading.Thread(target=play_wav_on_index, args=[file, stream]) for stream in streams]
 
@@ -110,6 +108,8 @@ def play_file(file_location):
             stream.close()
         for t in threads:
             t.join()
+    finally:
+        print("Done")
 
 
 def build_parser():

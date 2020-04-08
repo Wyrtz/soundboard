@@ -11,9 +11,10 @@ function play_sound() {
   let options = {
     mode: 'text',
     pythonOptions: ['-u'], // get print results in real-time
-    scriptPath : path.join(__dirname, '../'),
-    args: ['../ae.wav']
+    scriptPath : path.join(__dirname, '/file_player'),
+    args: ['file_player/ae.wav']
   };
+
 
   const sound = new PythonShell('play_file.py', options)
 
