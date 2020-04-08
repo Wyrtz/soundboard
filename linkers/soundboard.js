@@ -1,8 +1,22 @@
 'use strict';
 
-document.querySelector('#play').addEventListener('click', () => {
-  play_sound();
-})
+var $rows
+
+function update_table_search(){
+  $rows = $('#mainTable tr');
+}
+
+//Curtesy https://stackoverflow.com/questions/9127498/how-to-perform-a-real-time-search-and-filter-on-a-html-table
+$('#search').keyup(function() {
+    if(!$rows){return}
+    console.log("key up!")
+    var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+
+    $rows.show().filter(function() {
+        var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+        return !~text.indexOf(val);
+    }).hide();
+});
 
 document.querySelector('#stop').addEventListener('click', () => {
   stop_playing();
@@ -14,6 +28,7 @@ document.querySelector('#update').addEventListener('click', () => {
 
 let tree
 const playIcon = "<i class='fa fa-play' />"
+const stopIcon = "<i class='fa fa-stop' />"
 
 function update_file_list() {
   const dirTree = require("directory-tree");
@@ -24,7 +39,7 @@ function update_file_list() {
   //console.log(tree)
   const table = document.querySelector("#mainTable");
 
-  $("#mainTable tr>td").remove(); //Clear table
+  $("#mainTable tr").remove(); //Clear table
 
   const children = tree.children
   children.forEach(element => {
@@ -39,10 +54,9 @@ function update_file_list() {
     playCell.innerHTML = playIcon
     row.addEventListener('click', () => {
       play_sound(element.name, playCell);
-      playCell.innerHTML = "<i class='fa fa-stop' />"
     })
   });
-  
+  update_table_search()
 }
 
 let sound
@@ -61,6 +75,7 @@ function play_sound(soundFile, playCell) {
   }
   curRow = playCell
   stop_playing()
+  playCell.innerHTML = stopIcon
   isPlaying = true
   const {PythonShell} = require("python-shell");
   const path =  require("path")
