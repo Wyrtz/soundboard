@@ -17,6 +17,7 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "dependencies": {
+    "bootstrap-icons": "^1.0.0-alpha3",
     "electron": "^8.2.1",
     "python-shell": "^1.0.8"
   }

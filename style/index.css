@@ -1,2 +1,11 @@
 /*fill me up, boys! */
+i {
+  visibility: hidden;
+  width: 2rem;
+  height: 2rem;
+}
 
+tr:hover i {
+  display: inline-block;
+  visibility: visible;
+}
