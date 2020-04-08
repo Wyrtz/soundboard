@@ -1,10 +1,19 @@
 'use strict';
 
-document.querySelector('.button').addEventListener('click', () => {
+document.querySelector('#play').addEventListener('click', () => {
   play_sound();
 })
 
+document.querySelector('#stop').addEventListener('click', () => {
+  stop_playing();
+})
+
+
+let sound
+let keyboardInterrupt = 2
+
 function play_sound() {
+  stop_playing()
   const {PythonShell} = require("python-shell");
   const path =  require("path")
 
@@ -16,10 +25,16 @@ function play_sound() {
   };
 
 
-  const sound = new PythonShell('play_file.py', options)
+  sound = new PythonShell('play_file.py', options)
 
   sound.on("message", function(message) {
     console.log(message) //Print Python print statements
   })
+}
+
+function stop_playing(){
+  if(sound){
+    sound.terminate(keyboardInterrupt)
+  }
 }
 
