@@ -11,6 +11,8 @@
     <script defer src="bootstrap/js/jquery-3.4.1.js"></script>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
     <script defer src ="bootstrap/js/bootstrap.bundle.js"></script>
+    <!-- Awesome Icons -->
+    
     <!-- Our stuff-->
     <link rel="stylesheet" href="style/index.css">
     <script defer src="./renderer.js"></script>
@@ -18,11 +20,42 @@
     <title>Soundboard</title>
   </head>
   <body>
-    <div class="container-fluid">
-      <button class="button" id="play">Play funny sound</button> 
-      <button class="button" id="stop">Stop funny sound</button> 
-      <h1 id="title">I love u Mr. Bubz </h1>
-        <img src="gfx/mrbubz.png">
+    <div class="container-fluid p-3 bg-dark text-white">
+      <div class="row">
+        <div class="col-lg-4">
+          <h1 class="text-center" id="favorite">Favorites</h1>
+          <table class="table table-dark table-hover">
+            <thead>
+              <tr>
+                <th>Filename</th>
+                <th>Play</th>
+                <th>Pause</th>
+                <th>Shortcut</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>America Explain!.wav</td>
+                <td><span class="glyphicon glyphicon-play"></span></td>
+                <td><span class="	glyphicon glyphicon-pause"></span></td>
+                <td>CTRL + ALT + 5</td>
+              </tr>
+              <tr>
+                <td>Destroy the child.wav</td>
+                <td><span class="glyphicon glyphicon-play"></span></td>
+                <td><span class="	glyphicon glyphicon-pause"></span></td>
+                <td>CTRL + ALT + 4</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-lg-8">
+          <button class="button" id="play">Play funny sound</button> 
+          <button class="button" id="stop">Stop funny sound</button> 
+          <h1 class="display-4"  id="title"> I love u Mr. Bubz </h1>
+          <img src="gfx/mrbubz.png">
+        </div>
+      </div>
     </div>
   </body>
 </html>
