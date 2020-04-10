@@ -3,7 +3,7 @@
 var $rows
 
 function update_table_search(){
-  $rows = $('#mainTable tr');
+  $rows = $('#mainTableBody tr');
 }
 
 //Curtesy https://stackoverflow.com/questions/9127498/how-to-perform-a-real-time-search-and-filter-on-a-html-table
@@ -54,9 +54,9 @@ function update_file_list(lookup_dir) {
   console.log(".wav files in " + dir)
   tree = dirTree(dir, { extensions: /\.wav/ })
   //console.log(tree)
-  const table = document.querySelector("#mainTable");
+  const table = document.querySelector("#mainTableBody");
 
-  $("#mainTable tr").remove(); //Clear table
+  $("#mainTableBody tr").remove(); //Clear table
 
   const children = tree.children
   children.forEach(element => {

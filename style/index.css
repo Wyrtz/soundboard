@@ -1,20 +1,37 @@
-html, body {
+html, body, #container {
   height: 100%;
 }
 
-.fa-play {
-  visibility: hidden;
+#rightContainer {
+  max-height: 90vh;
 }
 
-tr:hover .fa-play {
-  display: block;
-  visibility: visible;
+#rightHeader {
+  height: 40px;
+  margin: 1rem;
 }
 
-#tableheader{
-  box-sizing: border-box;
-  float: left;
-  width: 100%;
+#update, #stop {
+  background-color: #454e55;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    height: 100%;
+    border: 1px solid #454e55;;
+}
+
+#update:hover, #stop:hover {
+  background-color: #323a41;
+  border: 1px solid #4b5157;
+}
+
+.buttonText {
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .has-search .form-control {
@@ -33,6 +50,24 @@ tr:hover .fa-play {
   color: #aaa;
 }
 
-table{
+
+.fa-play {
+  visibility: hidden;
+}
+
+tr:hover .fa-play {
+  display: block;
+  visibility: visible;
+}
+
+#mainTableContainer {
+  overflow-x: hidden;
+  overflow: scroll;
   width: 100%;
+  height: 100%;
+  max-height: 100%;
+}
+
+#mainTable {
+  overflow-x: hidden;
 }
