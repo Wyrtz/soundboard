@@ -6,10 +6,8 @@ import { playIcon, play_sound } from "./soundboard.js";
 let tree;
 export function update_file_list(lookup_dir) {
   const dirTree = require("directory-tree");
-  const path = require("path");
-  const dir = path.join(__dirname, "sound_files", lookup_dir);
-  console.log(".wav files in " + dir);
-  tree = dirTree(dir, { extensions: /\.wav/ });
+  console.log(".wav files in " + lookup_dir);
+  tree = dirTree(lookup_dir, { extensions: /\.wav/ });
   //console.log(tree)
   const table = document.querySelector("#mainTableBody");
   $("#mainTableBody tr").remove(); //Clear table
