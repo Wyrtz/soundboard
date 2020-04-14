@@ -1,3 +1,8 @@
+/* Different methods for sorting tables
+*
+*/
+
+
 var $rows;
 export function update_table_search() {
   $rows = $('#mainTableBody tr');
