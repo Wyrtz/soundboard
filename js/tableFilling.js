@@ -2,6 +2,7 @@
 
 import { update_table_search } from "./tableSorting.js";
 import { playIcon, play_sound } from "./soundboard.js";
+import { setBackButton } from "./ourMain.js";
 
 let tree;
 const path = require("path");
@@ -13,7 +14,6 @@ export function update_file_list(lookup_dir) {
   if(!path.isAbsolute(lookup_dir)){
     lookup_dir = path.join(__dirname, lookup_dir)
   }
-  console.log(lookup_dir)
   const dirTree = require("directory-tree");
   console.log(".wav files in " + lookup_dir);
   tree = dirTree(lookup_dir, { extensions: /\.wav/ });
@@ -43,6 +43,7 @@ function _createRow(table, element) {
     row.addEventListener('click', () => {
       const absPath = path.join(curDir, element.name)
       update_file_list(absPath);
+      setBackButton(absPath)
     });
   }
   else { //It is a file
