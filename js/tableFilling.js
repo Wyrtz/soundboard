@@ -39,7 +39,7 @@ function _createRow(table, element) {
   const playCell = row.insertCell(3);
   if (element.type === "directory") {
     favoriteCell.innerHTML = "<i class='fa fa-folder' />";
-    fileNameCell.innerHTML = element.name;
+    fileNameCell.textContent = element.name;
     row.addEventListener('click', () => {
       const absPath = path.join(curDir, element.name)
       update_file_list(absPath);
@@ -48,11 +48,36 @@ function _createRow(table, element) {
   }
   else { //It is a file
     favoriteCell.innerHTML = "<i class='fa fa-star' />";
-    fileNameCell.innerHTML = element.name.split(".")[0];
-    shortcutCell.innerHTML = "-Na-";
+    fileNameCell.textContent = element.name.split(".")[0];
+    shortcutCell.textContent = "-Na-";
     playCell.innerHTML = playIcon;
     row.addEventListener('click', () => {
-      play_sound(element.path, playCell);
+      play_sound(element, playCell, insertIntoFavorites);
     });
   }
 }
+
+let favoriteDict = {}
+//ToDo: make persistant
+const favoriteTable = document.querySelector("#favoriteTableBody");
+function insertIntoFavorites(element){
+  if(favoriteDict[element.name] === undefined){
+    const row = favoriteTable.insertRow();
+    const playCell = row.insertCell(0)
+    playCell.innerHTML = playIcon
+    row.insertCell(1).textContent = element.name.split(".")[0]
+    row.insertCell(2).textContent ="-Na-"
+    row.insertCell(3).textContent = 1
+    favoriteDict[element.name] = {"count": 1, "row": row}
+    row.addEventListener('click', () => {
+      play_sound(element.path, playCell);
+      insertIntoFavorites(element)
+  });
+  } else{
+    const favoriteEntery = favoriteDict[element.name]
+    favoriteEntery.count += 1
+    favoriteEntery.row.cells[3].textContent = favoriteEntery.count
+
+  }
+}
+

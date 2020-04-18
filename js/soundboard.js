@@ -10,9 +10,8 @@ let keyboardInterrupt = 2
 let curRow
 let isPlaying = false
 
-export function play_sound(soundFile, playCell) {
+export function play_sound(soundFile, playCell, fun) {
   if(curRow){
-    console.log()
     curRow.innerHTML = playIcon
     if(isPlaying && curRow == playCell){
       stop_playing()
@@ -29,7 +28,7 @@ export function play_sound(soundFile, playCell) {
     mode: 'text',
     pythonOptions: ['-u'], // get print results in real-time
     scriptPath : path.join(__dirname, '/file_player'),
-    args: [soundFile]
+    args: [soundFile.path]
   };
   sound = new PythonShell('play_file.py', options)
 
@@ -39,6 +38,7 @@ export function play_sound(soundFile, playCell) {
       console.log("Got it bro!")
       curRow.innerHTML = "<i class='fa fa-play' />"
       isPlaying = false
+      fun(soundFile)
     }
   })
 }
