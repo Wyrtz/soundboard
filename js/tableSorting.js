@@ -34,12 +34,17 @@ document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() =
     .forEach(tr => tbody.appendChild(tr));
 })));*/
 
-$('th').click(sort)
 
-export function sort(){
+//Curtesy of https://stackoverflow.com/questions/3160277/jquery-table-sort/17805499#17805499 (Nick Grealy)
+$('th').click(sort)
+$('#count').click({direction: "asc"}, sort)
+
+export function sort(args){
   var table = $(this).parents('table').eq(0)
   var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
-  this.asc = !this.asc
+  if(args.direction !== "asc"){
+    this.asc = !this.asc
+  } 
   if (!this.asc){rows = rows.reverse()}
   for (var i = 0; i < rows.length; i++){table.append(rows[i])}
 }

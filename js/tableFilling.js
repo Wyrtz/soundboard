@@ -82,7 +82,6 @@ function insertIntoFavorites(leaf, count){
     row.insertCell(1).textContent = leaf.name.split(".")[0]
     row.insertCell(2).textContent ="-Na-"
     row.insertCell(3).textContent = count
-    
     row.addEventListener('click', () => {
       play_sound(leaf, playCell, insertIntoFavorites);
   });
@@ -91,6 +90,7 @@ function insertIntoFavorites(leaf, count){
     const favoriteEntery = favoriteDict[leaf.name]
     favoriteEntery.count += 1
     favoriteEntery.row.cells[3].textContent = favoriteEntery.count
+    sortFavoritesByPlays()
   }
 }
 
@@ -105,7 +105,9 @@ function loadFavoritesFromDisk(){
   Object.keys(tmpDict).forEach(key => {
     insertIntoFavorites(tmpDict[key].leaf, tmpDict[key].count)
   });
-  $('#count')
+  sortFavoritesByPlays()
 }
 
-
+function sortFavoritesByPlays(){
+  $("#count").click()
+}
