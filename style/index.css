@@ -2,7 +2,7 @@ html, body, #container {
   height: 100%;
 }
 
-#rightContainer {
+#rightContainer, #leftContainer {
   max-height: 90vh;
 }
 
@@ -60,7 +60,7 @@ tr:hover .fa-play {
   visibility: visible;
 }
 
-#mainTableContainer {
+#mainTableContainer, #favoriteTableContainer {
   overflow: auto;
   max-height: 100%;
 }
