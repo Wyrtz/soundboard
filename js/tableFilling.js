@@ -4,10 +4,24 @@ import { update_table_search } from "./tableSorting.js";
 import { playIcon, play_sound } from "./soundboard.js";
 import { setBackButton } from "./ourMain.js";
 
+
 let tree;
+const favoriteTable = document.querySelector("#favoriteTableBody");
 const path = require("path");
 const fs = require("fs")
 let curDir
+
+//Save the favorites table on close
+const { remote } = require('electron');
+const fileName = "favorites.json"
+const filePath = path.join(__dirname, fileName)
+remote.getCurrentWindow().on("close", saveFavoritesToDisk)
+
+//Load the favorites
+let favoriteDict = {}
+if (fs.existsSync(filePath)) {
+  loadFavoritesFromDisk()
+} 
 
 export function update_file_list(lookup_dir) {
   curDir = lookup_dir
@@ -47,7 +61,7 @@ function _createRow(table, element) {
     });
   }
   else { //It is a file
-    favoriteCell.innerHTML = "<i class='fa fa-star' />";
+    favoriteCell.innerHTML = "<i class='fa fa-file' />";
     fileNameCell.textContent = element.name.split(".")[0];
     shortcutCell.textContent = "-Na-";
     playCell.innerHTML = playIcon;
@@ -57,27 +71,40 @@ function _createRow(table, element) {
   }
 }
 
-let favoriteDict = {}
-//ToDo: make persistant
-const favoriteTable = document.querySelector("#favoriteTableBody");
-function insertIntoFavorites(element){
-  if(favoriteDict[element.name] === undefined){
+function insertIntoFavorites(leaf, count){
+  if(count === undefined){
+    count = 1
+  }
+  if(favoriteDict[leaf.name] === undefined){ //Not played before
     const row = favoriteTable.insertRow();
     const playCell = row.insertCell(0)
     playCell.innerHTML = playIcon
-    row.insertCell(1).textContent = element.name.split(".")[0]
+    row.insertCell(1).textContent = leaf.name.split(".")[0]
     row.insertCell(2).textContent ="-Na-"
-    row.insertCell(3).textContent = 1
-    favoriteDict[element.name] = {"count": 1, "row": row}
+    row.insertCell(3).textContent = count
+    
     row.addEventListener('click', () => {
-      play_sound(element.path, playCell);
-      insertIntoFavorites(element)
+      play_sound(leaf, playCell, insertIntoFavorites);
   });
+    favoriteDict[leaf.name] = {"count": 1, "row": row, "leaf": leaf}
   } else{
-    const favoriteEntery = favoriteDict[element.name]
+    const favoriteEntery = favoriteDict[leaf.name]
     favoriteEntery.count += 1
     favoriteEntery.row.cells[3].textContent = favoriteEntery.count
-
   }
 }
+
+function saveFavoritesToDisk(){
+  fs.writeFileSync(filePath, JSON.stringify(favoriteDict))
+}
+
+function loadFavoritesFromDisk(){
+  const tmpDict = JSON.parse(fs.readFileSync(filePath))
+  console.log(tmpDict)
+  console.log(Object.keys(tmpDict))
+  Object.keys(tmpDict).forEach(key => {
+    insertIntoFavorites(tmpDict[key].leaf, tmpDict[key].count)
+  });
+}
+
 
