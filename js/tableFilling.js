@@ -85,7 +85,7 @@ function insertIntoFavorites(leaf, count){
   
   for(let i = 0; i < favoriteTable.rows.length; i++){
     if(favoriteTable.rows[i].cells[1].innerText === leaf.name.split(".")[0]){
-      favoriteTable.rows[i].cells[3].innerText = count
+      favoriteTable.rows[i].cells[2].innerText = count
       sortFavoritesByPlays()
       //limitTo10()
       return
@@ -93,11 +93,11 @@ function insertIntoFavorites(leaf, count){
   }
 
   if(favoriteTable.rows.length >= 10){ //Don't insert if not new top 10
-    const lowestEntery = parseInt(favoriteTable.rows[9].cells[3].innerText)
+    const lowestEntery = parseInt(favoriteTable.rows[9].cells[2].innerText)
     if(lowestEntery > count){
       return
     } else{
-      favoriteTable.deleteRow(9)
+      favoriteTable.deleteRow(9)//Make room for new entry with same amount of plays
     }
   } 
 
@@ -105,8 +105,7 @@ function insertIntoFavorites(leaf, count){
   const playCell = row.insertCell(-1)
   playCell.innerHTML = playIcon
   row.insertCell(1).textContent = leaf.name.split(".")[0]
-  row.insertCell(2).textContent ="-Na-"
-  row.insertCell(3).textContent = count
+  row.insertCell(2).textContent = count
   row.addEventListener('click', () => {
     play_sound(leaf, playCell, insertIntoFavorites);
   });

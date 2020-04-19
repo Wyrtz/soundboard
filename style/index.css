@@ -56,7 +56,6 @@ html, body, #container {
 }
 
 tr:hover .fa-play {
-  display: block;
   visibility: visible;
 }
 
@@ -67,4 +66,19 @@ tr:hover .fa-play {
 
 #mainTable {
   overflow-x: hidden;
+}
+
+/* Curtesy of https://stackoverflow.com/questions/17012421/auto-number-table-rows user36918333*/
+#favoriteTableContainer {
+  counter-reset: rowNumber;
+}
+
+#favoriteTableContainer tr:not(:first-child) {
+  counter-increment: rowNumber;
+}
+
+#favoriteTableContainer tr td:first-child::before {
+  content: counter(rowNumber);
+  min-width: 1em;
+  margin-right: 0.5em;
 }
