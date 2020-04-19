@@ -1,6 +1,6 @@
 //Methodes for populating tables
 
-import { update_table_search, sort } from "./tableSorting.js";
+import { update_table_search, limitTo10} from "./tableSorting.js";
 import { playIcon, play_sound } from "./soundboard.js";
 import { setBackButton } from "./ourMain.js";
 
@@ -86,12 +86,17 @@ function insertIntoFavorites(leaf, count){
       play_sound(leaf, playCell, insertIntoFavorites);
   });
     favoriteDict[leaf.name] = {"count": count, "row": row, "leaf": leaf}
+    if(favoriteTable.rows.length > 11){}
   } else{
-    const favoriteEntery = favoriteDict[leaf.name]
+    const count = favoriteDict[leaf.name].count + 1 
+    delete favoriteDict[leaf.name]
+    insertIntoFavorites(leaf, count)
+    /*const favoriteEntery = favoriteDict[leaf.name]
     favoriteEntery.count += 1
-    favoriteEntery.row.cells[3].textContent = favoriteEntery.count
-    sortFavoritesByPlays()
+    favoriteEntery.row.cells[3].textContent = favoriteEntery.count*/
   }
+  sortFavoritesByPlays()
+  limitTo10()
 }
 
 function saveFavoritesToDisk(){

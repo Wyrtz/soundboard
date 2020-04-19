@@ -57,3 +57,11 @@ function comparer(index) {
 }
 
 function getCellValue(row, index){ return $(row).children('td').eq(index).text() }
+
+export function limitTo10(){
+  const table = document.getElementById("favoriteTable")
+  while (table.rows.length > 11){
+    console.log(table.rows.length)
+    table.deleteRow(10)
+  }
+}
