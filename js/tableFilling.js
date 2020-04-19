@@ -72,9 +72,48 @@ function _createRow(table, element) {
 }
 
 function insertIntoFavorites(leaf, count){
-  if(count === undefined){
+  let entery = favoriteDict[leaf.name]
+  if(count === undefined){ //If count != undefined: we are creating from file
     count = 1
   }
+  if(entery === undefined){ //Not played before (this session)
+    favoriteDict[leaf.name] = {"count": count, "leaf": leaf}
+  } else { //Played before, count up 1 
+    count = entery.count + 1
+    favoriteDict[leaf.name].count = count
+  }
+  
+  for(let i = 0; i < favoriteTable.rows.length; i++){
+    if(favoriteTable.rows[i].cells[1].innerText === leaf.name.split(".")[0]){
+      favoriteTable.rows[i].cells[3].innerText = count
+      sortFavoritesByPlays()
+      //limitTo10()
+      return
+    }
+  }
+
+  if(favoriteTable.rows.length >= 10){ //Don't insert if not new top 10
+    const lowestEntery = parseInt(favoriteTable.rows[9].cells[3].innerText)
+    if(lowestEntery > count){
+      return
+    } else{
+      favoriteTable.deleteRow(9)
+    }
+  } 
+
+  const row = favoriteTable.insertRow();
+  const playCell = row.insertCell(-1)
+  playCell.innerHTML = playIcon
+  row.insertCell(1).textContent = leaf.name.split(".")[0]
+  row.insertCell(2).textContent ="-Na-"
+  row.insertCell(3).textContent = count
+  row.addEventListener('click', () => {
+    play_sound(leaf, playCell, insertIntoFavorites);
+  });
+  sortFavoritesByPlays()
+  //limitTo10()
+
+  /*
   if(favoriteDict[leaf.name] === undefined){ //Not played before
     const row = favoriteTable.insertRow();
     const playCell = row.insertCell(0)
@@ -90,13 +129,10 @@ function insertIntoFavorites(leaf, count){
   } else{
     const count = favoriteDict[leaf.name].count + 1 
     delete favoriteDict[leaf.name]
-    insertIntoFavorites(leaf, count)
-    /*const favoriteEntery = favoriteDict[leaf.name]
-    favoriteEntery.count += 1
-    favoriteEntery.row.cells[3].textContent = favoriteEntery.count*/
+    insertIntoFavorites(leaf, count) //ToDo: do smarter ?
   }
   sortFavoritesByPlays()
-  limitTo10()
+  limitTo10()*/
 }
 
 function saveFavoritesToDisk(){
