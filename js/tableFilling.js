@@ -1,15 +1,17 @@
 //Methodes for populating tables
-
-import { update_table_search, limitTo10} from "./tableSorting.js";
+const { globalShortcut} = require('electron').remote;
+import { update_table_search} from "./tableSorting.js";
 import { playIcon, play_sound } from "./soundboard.js";
 import { setBackButton } from "./ourMain.js";
 
 
-let tree;
+export let tree;
 const favoriteTable = document.querySelector("#favoriteTableBody");
+const mianTable = document.querySelector("#mainTableBody");
 const path = require("path");
 const fs = require("fs")
-let curDir
+const dirTree = require("directory-tree");
+export let curDir
 
 //Save the favorites table on close
 const { remote } = require('electron');
@@ -28,16 +30,24 @@ export function update_file_list(lookup_dir) {
   if(!path.isAbsolute(lookup_dir)){
     lookup_dir = path.join(__dirname, lookup_dir)
   }
-  const dirTree = require("directory-tree");
   console.log(".wav files in " + lookup_dir);
   tree = dirTree(lookup_dir, { extensions: /\.wav/ });
   //console.log(tree)
-  const table = document.querySelector("#mainTableBody");
-  $("#mainTableBody tr").remove(); //Clear table
+  clearMainTable()
   const children = tree.children;
   children.forEach(element => {
-    _createRow(table, element);
+    _createRow(mianTable, element);
   });
+  update_table_search();
+}
+
+export function addAll(dirTree){
+  dirTree.forEach(element => {
+    if(element.type === "directory"){
+      addAll(element.children)
+    }
+      _createRow(mianTable, element);
+    });
   update_table_search();
 }
 
@@ -87,7 +97,6 @@ function insertIntoFavorites(leaf, count){
     if(favoriteTable.rows[i].cells[1].innerText === leaf.name.split(".")[0]){
       favoriteTable.rows[i].cells[2].innerText = count
       sortFavoritesByPlays()
-      //limitTo10()
       return
     }
   }
@@ -110,28 +119,6 @@ function insertIntoFavorites(leaf, count){
     play_sound(leaf, playCell, insertIntoFavorites);
   });
   sortFavoritesByPlays()
-  //limitTo10()
-
-  /*
-  if(favoriteDict[leaf.name] === undefined){ //Not played before
-    const row = favoriteTable.insertRow();
-    const playCell = row.insertCell(0)
-    playCell.innerHTML = playIcon
-    row.insertCell(1).textContent = leaf.name.split(".")[0]
-    row.insertCell(2).textContent ="-Na-"
-    row.insertCell(3).textContent = count
-    row.addEventListener('click', () => {
-      play_sound(leaf, playCell, insertIntoFavorites);
-  });
-    favoriteDict[leaf.name] = {"count": count, "row": row, "leaf": leaf}
-    if(favoriteTable.rows.length > 11){}
-  } else{
-    const count = favoriteDict[leaf.name].count + 1 
-    delete favoriteDict[leaf.name]
-    insertIntoFavorites(leaf, count) //ToDo: do smarter ?
-  }
-  sortFavoritesByPlays()
-  limitTo10()*/
 }
 
 function saveFavoritesToDisk(){
@@ -140,14 +127,26 @@ function saveFavoritesToDisk(){
 
 function loadFavoritesFromDisk(){
   const tmpDict = JSON.parse(fs.readFileSync(filePath))
-  console.log(tmpDict)
-  console.log(Object.keys(tmpDict))
   Object.keys(tmpDict).forEach(key => {
     insertIntoFavorites(tmpDict[key].leaf, tmpDict[key].count)
   });
-  sortFavoritesByPlays()
 }
 
 function sortFavoritesByPlays(){
   $("#count").click()
+  const favrows = favoriteTable.rows
+  for(let i = 0; i < favrows.length; i++){
+    globalShortcut.register("CommandOrControl+num" + i, () => {
+      favrows[i].click()
+    })
+    globalShortcut.register("CommandOrControl+" + i, () => {
+      favrows[i].click()
+    })
+  }
+
 }
+
+export function clearMainTable(){
+  $("#mainTableBody tr").remove(); //Clear table
+}
+

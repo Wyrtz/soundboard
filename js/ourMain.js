@@ -1,5 +1,5 @@
 //Main file 
-const {dialog, globalShortcut} = require('electron').remote;
+const {dialog, globalShortcut, BrowserWindow} = require('electron').remote;
 import { update_file_list } from "./tableFilling.js";
 import { stop_playing } from "./soundboard.js";
 
@@ -57,17 +57,28 @@ if (fs.existsSync(dir)) {
 }
 
 //Shortcuts
-for(let i = 0; i < favoriteTable.rows.length; i++){
+/*for(let i = 0; i < favoriteTable.rows.length; i++){
   //favoriteTable.rows[i]
   registerShortcut(i)
 }
 favoriteTable.rows
 
-function registerShortcut(idx){
+export function registerShortcut(idx){
   globalShortcut.register('CommandOrControl+num' + idx, () => {
     favoriteTable.rows[idx].click()
   })
-}
+}*/
 
 globalShortcut.register("CommandOrControl+numsub", () => {
-  $("#stop").click()})
+  $("#stop").click()
+})
+
+globalShortcut.register("CommandOrControl+l", () => {
+  console.log("reg!")
+  BrowserWindow.getAllWindows()[0].show()
+  $("#search").click()
+})
+
+$("#search").click()
+
+//https://github.com/ccampbell/mousetrap/tree/master/ 

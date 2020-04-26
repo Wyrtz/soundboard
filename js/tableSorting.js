@@ -1,8 +1,7 @@
 /* Different methods for sorting tables
 *
 */
-
-
+import { addAll, update_file_list, clearMainTable, curDir, tree } from "./tableFilling.js";
 var $rows;
 export function update_table_search() {
   $rows = $('#mainTableBody tr');
@@ -21,19 +20,22 @@ $('#search').keyup(function () {
   }).hide();
 });
 
-//Sort according to column header
-//Curtesy of https://stackoverflow.com/questions/14267781/sorting-html-table-with-javascript
-/*const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
-const comparer = (idx, asc) => (a, b) => ((v1, v2) => v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2))(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
-// do the work...
-document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
-  const table = th.closest('table');
-  const tbody = table.querySelector('tbody');
-  Array.from(tbody.querySelectorAll('tr'))
-    .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
-    .forEach(tr => tbody.appendChild(tr));
-})));*/
+let allSFilesAdded = false
 
+$('#search').keyup(function () {
+  const curVal = $(this).val()
+  if(curVal === ""){ //Searchbar empty
+    update_file_list(curDir)
+    allSFilesAdded = false
+    return
+  }
+  if(!allSFilesAdded){
+    clearMainTable()
+    addAll(tree.children)
+    allSFilesAdded = true
+  }
+
+});
 
 //Curtesy of https://stackoverflow.com/questions/3160277/jquery-table-sort/17805499#17805499 (Nick Grealy)
 $('th').click(sort)
@@ -57,11 +59,3 @@ function comparer(index) {
 }
 
 function getCellValue(row, index){ return $(row).children('td').eq(index).text() }
-
-export function limitTo10(){
-  const table = document.getElementById("favoriteTable")
-  while (table.rows.length > 11){
-    console.log(table.rows.length)
-    table.deleteRow(10)
-  }
-}

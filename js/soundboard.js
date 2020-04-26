@@ -18,6 +18,7 @@ export function play_sound(soundFile, playCell, fun) {
       return
     }
   }
+  fun(soundFile)
   curRow = playCell
   stop_playing()
   playCell.innerHTML = stopIcon
@@ -38,7 +39,6 @@ export function play_sound(soundFile, playCell, fun) {
       console.log("Got it bro!")
       curRow.innerHTML = "<i class='fa fa-play' />"
       isPlaying = false
-      fun(soundFile)
     }
   })
 }
