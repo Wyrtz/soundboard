@@ -73,12 +73,16 @@ globalShortcut.register("CommandOrControl+numsub", () => {
   $("#stop").click()
 })
 
-globalShortcut.register("CommandOrControl+l", () => {
-  console.log("reg!")
-  BrowserWindow.getAllWindows()[0].show()
-  $("#search").click()
+globalShortcut.register("CommandOrControl+Shift+l", () => {
+  const window = BrowserWindow.getAllWindows()[0]
+  window.show()
+  $("#search").focus()
 })
 
-$("#search").click()
+BrowserWindow.getAllWindows()[0].on("browser-window-focus", () => {
+  $("#search").focus()
+})
+
+$("#search").focus()
 
 //https://github.com/ccampbell/mousetrap/tree/master/ 

@@ -17,12 +17,7 @@ function createWindow () {
   mainWindow.loadFile('index.html')
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
-
-  //Set Shortcuts
-  globalShortcut.register('CommandOrControl+X', () => {
-    //console.log('CommandOrControl+X is pressed')
-  })
+  //mainWindow.webContents.openDevTools()
 }
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -41,6 +36,7 @@ app.on('activate', function () {
   // dock icon is clicked and there are no other windows open.
   if (BrowserWindow.getAllWindows().length === 0) createWindow()
 })
+  //$("#search").focus()})
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.

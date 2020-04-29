@@ -31,7 +31,7 @@ export function play_sound(soundFile, playCell, fun) {
     scriptPath : path.join(__dirname, '/file_player'),
     args: [soundFile.path]
   };
-  sound = new PythonShell('play_file.py', options)
+  sound = new PythonShell('play_file.exe', options)
 
   sound.on("message", function(message) {
     console.log(message) //Print Python print statements

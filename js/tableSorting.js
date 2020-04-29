@@ -13,6 +13,16 @@ $('#search').keyup(function () {
   if (!$rows) {
     return;
   }
+  if(event.keyCode === 13){
+    event.preventDefault();
+    const rows = document.querySelector("#mainTableBody").rows
+    for(let i = 0; i < rows.length; i++){
+      if(rows[i].style.display !== "none"){
+        rows[i].click()
+        return
+      }
+    };  //Click the first on enter (13)
+  }
   var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
   $rows.show().filter(function () {
     var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
