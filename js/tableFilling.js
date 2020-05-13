@@ -1,7 +1,7 @@
 //Methodes for populating tables
 const { globalShortcut} = require('electron').remote;
 import { update_table_search} from "./tableSorting.js";
-import { playIcon, play_sound } from "./soundboard.js";
+import { playIcon, play_sound, stop_playing } from "./soundboard.js";
 import { setBackButton } from "./ourMain.js";
 
 
@@ -11,6 +11,7 @@ const mianTable = document.querySelector("#mainTableBody");
 const path = require("path");
 const fs = require("fs")
 const dirTree = require("directory-tree");
+const trashIcon = "<i class='fa fa-trash'/>"
 export let curDir
 
 //Save the favorites table on close
@@ -81,6 +82,11 @@ function _createRow(table, element) {
   }
 }
 
+function deleteFromFavorites(entryName, entryRow){
+  delete favoriteDict[entryName]
+  favoriteTable.deleteRow(entryRow)
+}
+
 function insertIntoFavorites(leaf, count){
   let entery = favoriteDict[leaf.name]
   if(count === undefined){ //If count != undefined: we are creating from file
@@ -93,9 +99,10 @@ function insertIntoFavorites(leaf, count){
     favoriteDict[leaf.name].count = count
   }
   
+  //Find the row and update its count
   for(let i = 0; i < favoriteTable.rows.length; i++){
     if(favoriteTable.rows[i].cells[1].innerText === leaf.name.split(".")[0]){
-      favoriteTable.rows[i].cells[2].innerText = count
+      favoriteTable.rows[i].cells[2].innerHTML = count + trashIcon
       sortFavoritesByPlays()
       return
     }
@@ -114,9 +121,14 @@ function insertIntoFavorites(leaf, count){
   const playCell = row.insertCell(-1)
   playCell.innerHTML = playIcon
   row.insertCell(1).textContent = leaf.name.split(".")[0]
-  row.insertCell(2).textContent = count
-  row.addEventListener('click', () => {
-    play_sound(leaf, playCell, insertIntoFavorites);
+  row.insertCell(2).innerHTML = count + trashIcon
+  for (let index = 0; index < row.cells.length -1; index++) {
+    row.cells[index].addEventListener('click', () => {
+      play_sound(leaf, playCell, insertIntoFavorites);
+    })
+  }
+  row.cells[2].addEventListener('click', () => {
+    deleteFromFavorites(leaf.name, row.index-1)
   });
   sortFavoritesByPlays()
 }

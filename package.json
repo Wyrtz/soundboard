@@ -8,11 +8,7 @@
   },
   "repository": "https://github.com/Wyrtz/soundboard.git",
   "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
+    "Electron"
   ],
   "author": "GitHub",
   "license": "CC0-1.0",
@@ -20,5 +16,8 @@
     "electron": "^8.2.1",
     "python-shell": "^1.0.8",
     "directory-tree": "^2.2.4"
+  },
+  "devDependencies": {
+    "electron-packager": "^14.2.1"
   }
 }

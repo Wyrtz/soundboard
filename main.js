@@ -7,15 +7,14 @@ function createWindow () {
   const mainWindow = new BrowserWindow({
     width: 1680,
     height: 1020,
+    icon: path.join(__dirname + "/gfx/download-_3_.ico"),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true
     }
   })
-
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
-
   // Open the DevTools.
   //mainWindow.webContents.openDevTools()
 }
