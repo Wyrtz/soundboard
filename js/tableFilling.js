@@ -149,10 +149,7 @@ function sortFavoritesByPlays(){
   const favrows = favoriteTable.rows
   for(let i = 0; i < favrows.length; i++){
     globalShortcut.register("CommandOrControl+num" + i, () => {
-      favrows[i].click()
-    })
-    globalShortcut.register("CommandOrControl+" + i, () => {
-      favrows[i].click()
+      favrows[i].cells[0].click()
     })
   }
 
