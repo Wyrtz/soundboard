@@ -1,7 +1,7 @@
 //Methodes for populating tables
 const { globalShortcut} = require('electron').remote;
 import { update_table_search} from "./tableSorting.js";
-import { playIcon, play_sound, stop_playing } from "./soundboard.js";
+import { playIcon, play_sound, stop_playing } from "./jsSoundboard.js";
 import { setBackButton } from "./ourMain.js";
 
 

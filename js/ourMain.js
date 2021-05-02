@@ -1,7 +1,7 @@
 //Main file 
 const {dialog, globalShortcut, BrowserWindow} = require('electron').remote;
 import { update_file_list } from "./tableFilling.js";
-import { stop_playing } from "./soundboard.js";
+import { stop_playing } from "./jsSoundboard.js";
 
 const favoriteTable = document.querySelector("#favoriteTableBody");
 const updateBtn = document.querySelector('#update')
