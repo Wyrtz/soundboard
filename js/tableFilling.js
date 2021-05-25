@@ -31,8 +31,8 @@ export function update_file_list(lookup_dir) {
   if(!path.isAbsolute(lookup_dir)){
     lookup_dir = path.join(__dirname, lookup_dir)
   }
-  console.log(".wav files in " + lookup_dir);
-  tree = dirTree(lookup_dir, { extensions: /\.wav/ });
+  //console.log(".wav files in " + lookup_dir);
+  tree = dirTree(lookup_dir, { extensions: /\.wav|\.mp3|\.flack|\.PCM|\.AIFF|\.AAC|\.OGG|\.WMA|\.ALAC/gmi });
   //console.log(tree)
   clearMainTable()
   const children = tree.children;
