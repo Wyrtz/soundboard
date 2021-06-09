@@ -4,3 +4,4 @@ venv/
 .vscode/
 favorites.json
 settings.json
+out/
