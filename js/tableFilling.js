@@ -32,7 +32,7 @@ export function update_file_list(lookup_dir) {
     lookup_dir = path.join(__dirname, lookup_dir)
   }
   //console.log(".wav files in " + lookup_dir);
-  tree = dirTree(lookup_dir, { extensions: /\.wav|\.mp3|\.flack|\.PCM|\.AIFF|\.AAC|\.OGG|\.WMA|\.ALAC/gmi });
+  tree = dirTree(lookup_dir, { extensions: /\.wav|\.mp3|\.flack|\.PCM|\.AIFF|\.AAC|\.OGG|\.WMA|\.ALAC/i });
   //console.log(tree)
   clearMainTable()
   const children = tree.children;
@@ -73,7 +73,7 @@ function _createRow(table, element) {
   }
   else { //It is a file
     favoriteCell.innerHTML = "<i class='fa fa-file' />";
-    fileNameCell.textContent = element.name.split(".")[0];
+    fileNameCell.textContent = element.name.split(".").slice(0,-1).join(".")
     shortcutCell.textContent = "-Na-";
     playCell.innerHTML = playIcon;
     row.addEventListener('click', () => {
