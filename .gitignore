@@ -3,3 +3,4 @@ node_modules
 venv/
 .vscode/
 favorites.json
+settings.json
