@@ -73,7 +73,7 @@ function _createRow(table, element) {
   }
   else { //It is a file
     favoriteCell.innerHTML = "<i class='fa fa-file' />";
-    fileNameCell.textContent = element.name.split(".").slice(0,-1).join(".")
+    fileNameCell.textContent = getFileNameWithoutExtention(element.name)
     shortcutCell.textContent = "-Na-";
     playCell.innerHTML = playIcon;
     row.addEventListener('click', () => {
@@ -159,3 +159,6 @@ export function clearMainTable(){
   $("#mainTableBody tr").remove(); //Clear table
 }
 
+function getFileNameWithoutExtention(fileName){
+  return fileName.split(".").slice(0,-1).join(".")
+}

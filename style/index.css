@@ -1,9 +1,11 @@
 html, body, #container {
   height: 100%;
+  overflow: hidden;
 }
 
 #rightContainer, #leftContainer {
   max-height: 90vh;
+  overflow-x: hidden;
 }
 
 #rightHeader {
@@ -11,7 +13,7 @@ html, body, #container {
   margin: 1rem;
 }
 
-#update, #stop {
+#update, #stop, #speakBtn {
   background-color: #454e55;
     border: none;
     color: white;
@@ -69,8 +71,12 @@ tr:hover .fa-play {
 }
 
 #mainTableContainer, #favoriteTableContainer {
-  overflow: auto;
+  overflow-x: hidden;
   max-height: 100%;
+}
+
+#textAreaDiv {
+  padding: 20px;
 }
 
 #mainTable {

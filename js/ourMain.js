@@ -2,7 +2,7 @@
 //Imports
 const {dialog, globalShortcut, BrowserWindow, getCurrentWindow} = require('electron').remote;
 import { update_file_list } from "./tableFilling.js";
-import { stop_playing } from "./jsSoundboard.js";
+import { stop_playing, speak_text  } from "./jsSoundboard.js";
 import { defaultSettings } from "./defaultSettings.js";
 const path = require("path");
 const fs = require("fs")
@@ -12,9 +12,13 @@ const favoriteTable = document.querySelector("#favoriteTableBody");
 const updateBtn = document.querySelector('#update')
 const updateBtnText = document.querySelector("#buttonText")
 
-//Event listeners
+//Add button funcitonality
 document.querySelector('#stop').addEventListener('click', () => {
   stop_playing();
+});
+
+document.querySelector('#speakBtn').addEventListener('click', () => {
+  speak_text(document.getElementById("textToSpeak").value);
 });
 
 updateBtn.addEventListener('click', setFolderLookupFunctionality);

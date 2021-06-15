@@ -1,6 +1,7 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow, globalShortcut} = require('electron')
-if (require('electron-squirrel-startup')) return app.quit();
+//Using electron-forge for easy "npm run make" for distribution
+if (require('electron-squirrel-startup')) return app.quit(); //See https://www.electronforge.io/config/makers/squirrel.windows
 const path = require('path')
 
 function createWindow () {
