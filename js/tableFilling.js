@@ -74,7 +74,7 @@ function _createRow(table, element) {
   else { //It is a file
     favoriteCell.innerHTML = "<i class='fa fa-file' />";
     fileNameCell.textContent = getFileNameWithoutExtention(element.name)
-    shortcutCell.textContent = "-Na-";
+    shortcutCell.textContent = row.rowIndex < 13 ? "F" + row.rowIndex : "";
     playCell.innerHTML = playIcon;
     row.addEventListener('click', () => {
       play_sound(element, playCell, insertIntoFavorites);
