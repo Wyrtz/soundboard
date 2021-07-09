@@ -1,4 +1,5 @@
 //Main file 
+//Building is npm run make
 //Imports
 const {dialog, globalShortcut, BrowserWindow, getCurrentWindow, Menu} = require('electron').remote;
 import { update_file_list } from "./tableFilling.js";

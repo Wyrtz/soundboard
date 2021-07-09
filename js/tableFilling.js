@@ -84,7 +84,7 @@ function _createRow(table, element) {
 
 function deleteFromFavorites(entryName, entryRow){
   delete favoriteDict[entryName]
-  favoriteTable.deleteRow(entryRow)
+  entryRow.remove()
 }
 
 function insertIntoFavorites(leaf, count){
@@ -128,7 +128,7 @@ function insertIntoFavorites(leaf, count){
     })
   }
   row.cells[2].addEventListener('click', () => {
-    deleteFromFavorites(leaf.name, row.index-1)
+    deleteFromFavorites(leaf.name, row)
   });
   sortFavoritesByPlays()
 }
