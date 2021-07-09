@@ -5,7 +5,8 @@
 //https://superuser.com/questions/869892/force-javascript-to-use-a-non-default-sound-device
 
 'use strict';
-
+import {menuTemplate} from "./menus.js";
+const {Menu, MenuItem} = require('electron').remote;
 export const playIcon = "<i class='fa fa-play' />"
 const stopIcon = "<i class='fa fa-stop' />"
 let curRow
@@ -14,10 +15,24 @@ let outputDeviceID = ""
 getSoundDevice()
 
 //Get the sounddevice to play the audio on
+//ToDo: jsSoundBoard should not be responsible of creating menu! prob main.js
 async function getSoundDevice(){
+    const currentMenu = Menu.buildFromTemplate(menuTemplate)
     let soundDevices = await navigator.mediaDevices.enumerateDevices()
-    let outputDevice = soundDevices.filter(element => element.label === "CABLE Input (VB-Audio Virtual Cable)")
+    const outputDevices = soundDevices.filter(e => e.kind ==="audiooutput")    
+    let outputDevice = soundDevices.filter(element => element.label === "VoiceMeeter Input (VB-Audio Virtual Cable)")
+    const pickOutDeviceMenu = currentMenu.items[1].submenu
     outputDeviceID = outputDevice[0].deviceId
+    outputDevices.forEach((element) => {
+        const menuItem = new MenuItem({
+            label: element.label,
+            type: 'radio',
+            click: () => {outputDeviceID = element.deviceId; console.log(element.label); menuItem.checked = true}
+        })
+        pickOutDeviceMenu.append(menuItem)
+    })
+    Menu.setApplicationMenu(currentMenu)
+    console.log(currentMenu)
 }
 
 //Play the given sound
@@ -45,7 +60,9 @@ export async function play_sound(soundFile, playCell, fun){
 //Say whatever text!
 export async function speak_text(text){
     var utterance = new SpeechSynthesisUtterance("");
-        utterance.lang='en-GB'; 
+    //Language set as BCP 47 language tag
+    //speechSynthesis.getVoices()
+        utterance.lang='de-DE';
         utterance.text=text;
         window.speechSynthesis.speak(utterance);
 }

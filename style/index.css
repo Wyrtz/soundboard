@@ -13,7 +13,8 @@ html, body, #container {
   margin: 1rem;
 }
 
-#update, #stop, #speakBtn {
+/** should be a class ? **/
+#update, #stop, #speakBtn, #pickLanguageBtn {
   background-color: #454e55;
     border: none;
     color: white;

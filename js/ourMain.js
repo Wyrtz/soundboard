@@ -1,9 +1,10 @@
 //Main file 
 //Imports
-const {dialog, globalShortcut, BrowserWindow, getCurrentWindow} = require('electron').remote;
+const {dialog, globalShortcut, BrowserWindow, getCurrentWindow, Menu} = require('electron').remote;
 import { update_file_list } from "./tableFilling.js";
 import { stop_playing, speak_text  } from "./jsSoundboard.js";
 import { defaultSettings } from "./defaultSettings.js";
+//import {menuTemplate} from "./menus.js";
 const path = require("path");
 const fs = require("fs")
 
@@ -12,6 +13,8 @@ const favoriteTable = document.querySelector("#favoriteTableBody");
 const updateBtn = document.querySelector('#update')
 const updateBtnText = document.querySelector("#buttonText")
 
+//const menu = Menu.buildFromTemplate(menuTemplate)
+//Menu.setApplicationMenu(menu) //Set null for no menu
 //Add button funcitonality
 document.querySelector('#stop').addEventListener('click', () => {
   stop_playing();
