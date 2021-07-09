@@ -13,13 +13,18 @@ $('#search').keyup(function () {
   if (!$rows) {
     return;
   }
-  if(event.keyCode === 13){
+  if(112 <= event.keyCode <= 123){
     event.preventDefault();
     const rows = document.querySelector("#mainTableBody").rows
+    const lookingFor = event.keyCode - 112
+    let at = 0
     for(let i = 0; i < rows.length; i++){
       if(rows[i].style.display !== "none"){
-        rows[i].click()
-        return
+        if(at === lookingFor){
+          rows[i].click()
+          return
+        }
+        at = at + 1
       }
     };  //Click the first on enter (13)
   }
