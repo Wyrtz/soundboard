@@ -1,8 +1,9 @@
 //Methodes for populating tables
 const { globalShortcut} = require('electron').remote;
-import { update_table_search} from "./tableSorting.js";
+import { update_table_search, labelMainShortcuts} from "./tableSorting.js";
 import { playIcon, play_sound, stop_playing } from "./jsSoundboard.js";
 import { setBackButton } from "./ourMain.js";
+
 
 
 export let tree;
@@ -39,6 +40,7 @@ export function update_file_list(lookup_dir) {
   children.forEach(element => {
     _createRow(mianTable, element);
   });
+  labelMainShortcuts()
   update_table_search();
 }
 
@@ -62,7 +64,7 @@ function _createRow(table, element) {
   const fileNameCell = row.insertCell(1);
   const shortcutCell = row.insertCell(2);
   const playCell = row.insertCell(3);
-  if (element.type === "directory") {
+  if (element.type === "directory") { //Its a folder
     favoriteCell.innerHTML = "<i class='fa fa-folder' />";
     fileNameCell.textContent = element.name;
     row.addEventListener('click', () => {
@@ -74,7 +76,6 @@ function _createRow(table, element) {
   else { //It is a file
     favoriteCell.innerHTML = "<i class='fa fa-file' />";
     fileNameCell.textContent = getFileNameWithoutExtention(element.name)
-    shortcutCell.textContent = row.rowIndex < 13 ? "F" + row.rowIndex : "";
     playCell.innerHTML = playIcon;
     row.addEventListener('click', () => {
       play_sound(element, playCell, insertIntoFavorites);

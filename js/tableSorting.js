@@ -13,10 +13,11 @@ $('#search').keyup(function () {
   if (!$rows) {
     return;
   }
-  if(112 <= event.keyCode <= 123){
+  //Click the first on enter (13), and F[x] keys for the rest
+  if(112 <= event.keyCode <= 123 || event.keyCode === 13){
     event.preventDefault();
     const rows = document.querySelector("#mainTableBody").rows
-    const lookingFor = event.keyCode - 112
+    const lookingFor =  event.keyCode === 13 ? 0 : event.keyCode - 112
     let at = 0
     for(let i = 0; i < rows.length; i++){
       if(rows[i].style.display !== "none"){
@@ -44,12 +45,12 @@ $('#search').keyup(function () {
     allSFilesAdded = false
     return
   }
-  if(!allSFilesAdded){
+  if(!allSFilesAdded){ //"Searchbar not empty"
     clearMainTable()
     addAll(tree.children)
     allSFilesAdded = true
   }
-
+  labelMainShortcuts()
 });
 
 //Curtesy of https://stackoverflow.com/questions/3160277/jquery-table-sort/17805499#17805499 (Nick Grealy)
@@ -74,3 +75,11 @@ function comparer(index) {
 }
 
 function getCellValue(row, index){ return $(row).children('td').eq(index).text() }
+
+export function labelMainShortcuts(){
+  const visRows = $('tr:visible','#mainTable')
+  const len = (visRows.length - 1) < 12 ? (visRows.length - 1) : 12
+  for (var i = 1; i <= len; i++){
+    visRows[i].cells[2].innerText = "F" + i
+  }
+}

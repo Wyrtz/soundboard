@@ -5,6 +5,7 @@ const {dialog, globalShortcut, BrowserWindow, getCurrentWindow, Menu} = require(
 import { update_file_list } from "./tableFilling.js";
 import { stop_playing, speak_text  } from "./jsSoundboard.js";
 import { defaultSettings } from "./defaultSettings.js";
+import { labelMainShortcuts} from "./tableSorting.js";
 //import {menuTemplate} from "./menus.js";
 const path = require("path");
 const fs = require("fs")
@@ -88,21 +89,6 @@ getCurrentWindow().on("close", () => {
   fs.writeFileSync(filePath, JSON.stringify(settings))
 })
 
-//Shortcuts
-//https://github.com/ccampbell/mousetrap/tree/master/ 
-
-/*for(let i = 0; i < favoriteTable.rows.length; i++){
-  //favoriteTable.rows[i]
-  registerShortcut(i)
-}
-favoriteTable.rows
-
-export function registerShortcut(idx){
-  globalShortcut.register('CommandOrControl+num' + idx, () => {
-    favoriteTable.rows[idx].click()
-  })
-}*/
-
 globalShortcut.register("CommandOrControl+numsub", () => {
   $("#stop").click()
 })
@@ -119,3 +105,6 @@ BrowserWindow.getAllWindows()[0].on("browser-window-focus", () => {
 
 //Set focus to the search bar to start with
 $("#search").focus()
+
+//Label first 12 visible rows
+labelMainShortcuts()
