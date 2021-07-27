@@ -6,7 +6,7 @@ import { update_file_list } from "./tableFilling.js";
 import { stop_playing, speak_text  } from "./jsSoundboard.js";
 import { defaultSettings } from "./defaultSettings.js";
 import { labelMainShortcuts} from "./tableSorting.js";
-//import {menuTemplate} from "./menus.js";
+import {getSoundDevice} from "./menus.js";
 const path = require("path");
 const fs = require("fs")
 
@@ -31,7 +31,7 @@ updateBtn.addEventListener('click', setFolderLookupFunctionality);
 //Constants
 let root
 let prev
-let settings;
+export let settings;
 
 //Load settings
 if (fs.existsSync('settings.json')) {
@@ -108,3 +108,6 @@ $("#search").focus()
 
 //Label first 12 visible rows
 labelMainShortcuts()
+
+//Set all avaliable sound devices in the menu
+getSoundDevice()
